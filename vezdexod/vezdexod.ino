@@ -1,0 +1,149 @@
+#include <Wire.h> 
+#include <ZumoShield.h> 
+
+#define LED 13 
+
+int duration, cm; 
+int trigPin = 13; 
+int echoPin = 12; 
+int chislo; 
+// this might need to be tuned for different lighting conditions, surfaces, etc. 
+#define QTR_THRESHOLD 1500 // microseconds 
+
+// these might need to be tuned for different motor types 
+#define REVERSE_SPEED 200 // 0 is stopped, 400 is full speed 
+#define TURN_SPEED 200 
+#define FORWARD_SPEED 155 
+#define REVERSE_DURATION 200 // ms 
+int TURN_DURATION; // ms 
+#define RUN_SPEED 230 
+ZumoBuzzer buzzer; 
+ZumoMotors motors; 
+Pushbutton button(ZUMO_BUTTON); // pushbutton on pin 12 
+
+#define NUM_SENSORS 6 
+unsigned int sensor_values[NUM_SENSORS]; 
+
+ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN); 
+
+/*void waitForButtonAndCountDown() 
+{ 
+digitalWrite(LED, HIGH); 
+button.waitForButton(); 
+digitalWrite(LED, LOW); 
+
+// play audible countdown 
+for (int i = 0; i < 3; i++) 
+{ 
+delay(1000); 
+buzzer.playNote(NOTE_G(3), 200, 15); 
+} 
+delay(1000); 
+buzzer.playNote(NOTE_G(4), 500, 15); 
+delay(1000); 
+} 
+*/ 
+void setup() 
+{ 
+Serial.begin (9600); 
+pinMode(trigPin, OUTPUT); 
+pinMode(echoPin, INPUT); 
+delay(100); 
+pinMode(LED, HIGH); 
+
+// play audible countdown 
+for (int i = 0; i < 3; i++) 
+{ 
+delay(1000); 
+buzzer.playNote(NOTE_G(3), 200, 15); 
+} 
+delay(1000); 
+buzzer.playNote(NOTE_G(4), 500, 15); 
+delay(1000); 
+
+// waitForButtonAndCountDown(); 
+} 
+
+void findObject(){ 
+digitalWrite(trigPin, LOW); 
+delayMicroseconds(2); 
+digitalWrite(trigPin, HIGH); 
+delayMicroseconds(10); 
+digitalWrite(trigPin, LOW); 
+duration = pulseIn(echoPin, HIGH); 
+cm = duration / 58; 
+} 
+void loop() 
+{ 
+/* if (button.isPressed()) 
+{ 
+// if button is pressed, stop and wait for another press to go again 
+motors.setSpeeds(0, 0); 
+button.waitForRelease(); 
+waitForButtonAndCountDown(); 
+*/ 
+chislo = random(0,1000); 
+TURN_DURATION = random(400,600); 
+findObject(); 
+sensors.read(sensor_values); 
+if(cm<0){ 
+
+} 
+else{
+if (sensor_values[5] > QTR_THRESHOLD||sensor_values[0] > QTR_THRESHOLD) 
+{ 
+if(chislo<=500){ 
+digitalWrite(LED,HIGH); 
+motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED); 
+delay(REVERSE_DURATION); 
+motors.setSpeeds(TURN_SPEED, -TURN_SPEED); 
+delay(TURN_DURATION); 
+} 
+
+
+else{ 
+digitalWrite(LED,HIGH); 
+motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED); 
+delay(REVERSE_DURATION); 
+motors.setSpeeds(-TURN_SPEED, TURN_SPEED); 
+delay(TURN_DURATION); 
+} 
+
+} 
+
+else 
+{ 
+motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED); 
+} 
+if(cm<25){
+if(chislo<=500){
+findObject(); 
+while(cm < 20){
+  if(cm<0){
+findObject();
+}
+findObject();
+motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
+}
+delay(225);
+}
+else{ 
+findObject(); 
+while(cm < 20){
+  if(cm<0){
+findObject();
+}
+findObject();
+motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
+}
+delay(225);
+}
+}
+else{
+motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED); 
+sensors.read(sensor_values);
+} 
+
+} 
+
+}
