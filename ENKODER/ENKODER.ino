@@ -1,7 +1,7 @@
 int clk = A2;
 int dt = A1;
 int sw = 10;
-int knopka;
+int button;
 int DT;
 int CLK;
 void setup() {
@@ -15,39 +15,41 @@ Serial.begin(9600);
 void loop() {
   while(1){
   // put your main code here, to run repeatedly:
-  knopka = digitalRead(sw);
-//Serial.println(knopka);
- DT = analogRead(dt);
-// Serial.println(DT);
+  button = digitalRead(sw);
+ // Serial.println(button);
+  DT = analogRead(dt);
+///  Serial.println(DT);
  
- CLK = analogRead(clk);
-// Serial.println(CLK);
-
-// Serial.println("");
+  CLK = analogRead(clk);
+ // Serial.println(CLK);
+ 
+ // Serial.println("");
   if(CLK < 50 && DT < 50){
   
 }
 if(DT < 50){
   while(DT < 50 || CLK < 50){
     DT = analogRead(dt);
-    CLK = analogRead(clk);    
+    CLK = analogRead(clk);   
+    delay(5);
   }
-  Serial.println("VLEVO");
+  Serial.println("Left");
 }
 if(CLK < 50){
   while(DT < 50 || CLK < 50){
     DT = analogRead(dt);
     CLK = analogRead(clk);
+    delay(5);
   }
-  Serial.println("VPRAVO");
+  Serial.println("Right");
 }
 if(CLK > 50 && DT > 50){
   
 }
-if(knopka == 0){
-  Serial.println("knopka nazhata");
-  while(knopka == 0){
-  knopka = digitalRead(sw);
+if(button == 0){
+  Serial.println("Button is pressed");
+  while(button == 0){
+  button = digitalRead(sw);
   delay(25);
   }
 }

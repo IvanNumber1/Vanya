@@ -20,7 +20,7 @@ void loop(){
   if (val == val2) {                 // make sure we got 2 consistant readings!
     if (val != buttonState) {          // the button state has changed!
       if (val == LOW) {                // check if the button is pressed
-        if (lightMode == 0) {          // is the light off?
+        if (lightMode == 0) {         // is the light off?
           lightMode = 1;               // turn light on!
           digitalWrite(led1Pin, HIGH);
         } else {
