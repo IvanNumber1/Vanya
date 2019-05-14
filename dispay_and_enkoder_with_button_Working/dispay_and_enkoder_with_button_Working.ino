@@ -8,7 +8,7 @@ LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars 
 #define Gas A3 // аналоговый выход MQ135 подключен к пину A0 Arduino
 
 
-int flag =0;
+int flag = 0;
 int o = 0;
 int ZnacheniyaGasa; // для аналогового значения
   int i = 1;
@@ -208,7 +208,7 @@ if(CLK > 50 && DT > 50){
         }
       }
     }
-    buttonState = val;                 // save the new state in our variable
+    buttonState = val;         
   }
 ///////////////////////
 }
