@@ -1,0 +1,23 @@
+#include <Servo.h>
+Servo LNOGA;  // Первый сервопривод
+Servo PNOGA;
+Servo LBEDRO;
+Servo PBEDRO;
+void setup() {
+  LNOGA.attach(8);   // Указываем объекту класса Servo, что серво присоединен к пину 8
+  PNOGA.attach(9);  // А этот servo присоединен к 9 пину
+  LBEDRO.attach(10);
+  PBEDRO.attach(11);
+}
+void loop() {
+  PNOGA.write(60);
+  LNOGA.write(160);
+  LBEDRO.write(0);
+  PBEDRO.write(120);
+  delay(300); 
+  PNOGA.write(0);
+  LNOGA.write(120);  //Левая нога согнута до конца
+  PBEDRO.write(160);
+  LBEDRO.write(60);
+  delay(300);
+}
